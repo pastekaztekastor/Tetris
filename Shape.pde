@@ -1,11 +1,9 @@
 abstract class Shape{
 
-    protected PVector positionIndex; 
     protected Orientation orientation;
     protected ArrayList<Bloc> shapeElements; 
 
-    protected Shape (PVector stratPosition) {
-        this.positionIndex = stratPosition;
+    protected Shape () {
         this.orientation = Orientation.TOP;
     }
 
@@ -38,20 +36,26 @@ abstract class Shape{
     public ArrayList<PVector> getAbsolutIndexShapeElement() {
         ArrayList<PVector> out = new ArrayList<PVector>();
         for (Bloc shapeElement : shapeElements) {
-            out.add( PVector.add(this.positionIndex, shapeElement.getIndex()));
+            out.add(shapeElement.getIndex());
         }
         return out;
     }
     public void move(Move move){
         switch (move) {
             case DOWN :
-                positionIndex.y++;
+                for (Bloc bloc : shapeElements) {
+                    bloc.setIndex(0,1);
+                }
                 break;	
             case RIGHT :
-                positionIndex.x++;
+                for (Bloc bloc : shapeElements) {
+                    bloc.setIndex(1,0);
+                }
                 break;	
             case LEFT :
-                positionIndex.x--;
+                for (Bloc bloc : shapeElements) {
+                    bloc.setIndex(-1,0);
+                }
                 break;
             case ROTATE : 
                 rotate();
@@ -61,13 +65,19 @@ abstract class Shape{
     public void undoMove(Move move) {
         switch (move) {
             case DOWN :
-                positionIndex.y--;
+                for (Bloc bloc : shapeElements) {
+                    bloc.setIndex(0,-1);
+                }
                 break;	
             case RIGHT :
-                positionIndex.x--;
+                for (Bloc bloc : shapeElements) {
+                    bloc.setIndex(-1,0);
+                }
                 break;	
             case LEFT :
-                positionIndex.x++;
+                for (Bloc bloc : shapeElements) {
+                    bloc.setIndex(1,0);
+                }
                 break;
             case ROTATE : 
                 rotate();
@@ -79,29 +89,7 @@ abstract class Shape{
     public void rotate() {
         // on vas faire des symtrie diag pour 1 cas sur 2
         // de symétrie horizon + diag pour les deux autres. 
-        switch (orientation) {
-            case LEFT :
-            case RIGHT :
-                // symétrie diag
-                for (Bloc shapeElement : shapeElements) {
-                    float x = shapeElement.getIndex().x;
-                    shapeElement.getIndex().x = shapeElement.getIndex().y;
-                    shapeElement.getIndex().y = x;
-                }
-                orientation = Orientation.TOP;
-            case TOP :
-            case BOTTOM : 
-                // symétrie vertical
-                float maxX = 0;
-                for (Bloc shapeElement : shapeElements) {
-                    maxX = max(maxX, shapeElement.getIndex().x);
-                }
-                for (Bloc shapeElement : shapeElements) {
-                    shapeElement.getIndex().x = maxX-shapeElement.getIndex().x;
-                }
-                orientation = Orientation.LEFT;
-                break;	
-        }
+        
     }
     public ArrayList<Bloc> getShapElements() {
         return shapeElements;

@@ -35,7 +35,7 @@ void setup() {
 void draw() {
     gride.plotGride();
     gride.plotShapes();
-    if (millis() - _millisBeg > 100){
+    if (millis() - _millisBeg > 300){
         _millisBeg = millis();
         gride.animate(Move.DOWN);
     }

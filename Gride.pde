@@ -25,23 +25,23 @@ public class Gride{
 
     public void appaerShape(){
         if (! endGame) {
-            int shapeType = (int)random(1, 1);
+            int shapeType = (int)random(0, 5);
             switch (shapeType) {
-                // case 0 :
-                //     movedShape = new ShapeSquare ( new PVector(1, 1));
-                //     break;	
+                case 0 :
+                    movedShape = new ShapeSquare ( new PVector(1, 1));
+                    break;	
                 case 1 :
                     movedShape = new ShapeLine ( new PVector(1, 1));
                     break;	
-                // case 2 :
-                //     movedShape = new ShapeT ( new PVector(1, 1));
-                //     break;	
-                // case 3 :
-                //     movedShape = new ShapeZ ( new PVector(1, 1));
-                //     break;	
-                // case 4 :
-                //     movedShape = new ShapeL ( new PVector(1, 1));
-                //     break;	
+                case 2 :
+                    movedShape = new ShapeT ( new PVector(1, 1));
+                    break;	
+                case 3 :
+                    movedShape = new ShapeZ ( new PVector(1, 1));
+                    break;	
+                case 4 :
+                    movedShape = new ShapeL ( new PVector(1, 1));
+                    break;	
             }   
         }
         if (endGame()) {
