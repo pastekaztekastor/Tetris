@@ -13,6 +13,9 @@ public class Gride{
     private ArrayList<Bloc> blocs; 
 
     private Shape movedShape;
+    private Shape nextShape;
+
+    int score;
 
     public Gride (PVector grideDim) {
         this.grideDim        = grideDim;
@@ -22,30 +25,16 @@ public class Gride{
         this.cornerBegin     = new PVector(windowMidle.x-grideSize.x/2, windowMidle.y-grideSize.y/2);
         this.cornerEnd       = new PVector(windowMidle.x+grideSize.x/2, windowMidle.y+grideSize.y/2); 
         this.blocs           = new ArrayList<Bloc>();
-        this.shapeType       = (int)random(0, 5);
         this.endGame         = false;
+        this.nextShape       = getShape((int)random(0, 6));
+        this.score           = 0;
     }
 
     public void appaerShape(){
         if (! endGame) {
-            switch (shapeType) {
-                case 0 :
-                    movedShape = new ShapeSquare ( new PVector(1, 1));
-                    break;	
-                case 1 :
-                    movedShape = new ShapeLine ( new PVector(1, 1));
-                    break;	
-                case 2 :
-                    movedShape = new ShapeT ( new PVector(1, 1));
-                    break;	
-                case 3 :
-                    movedShape = new ShapeZ ( new PVector(1, 1));
-                    break;	
-                case 4 :
-                    movedShape = new ShapeL ( new PVector(1, 1));
-                    break;	
-            }   
-            shapeType = (int)random(0, 5);
+            movedShape = nextShape;
+            score += movedShape.getScoreValue();
+            nextShape = getShape((int)random(0, 7));
         }
         if (endGame()) {
             println("fin de game");
@@ -113,6 +102,7 @@ public class Gride{
                     appaerShape();
             }
             if (indexFullLine().size() > 0){
+                score += 30*indexFullLine().size();
                 deletLine(indexFullLine());
             }
         }
@@ -168,6 +158,38 @@ public class Gride{
         for (Bloc bloc : blocs) {
             out.add(bloc.getIndex());
         }
+        return out;
+    }
+
+    public Shape getPrediction(){
+        return nextShape;
+    }
+
+    private Shape getShape(int n) {
+        Shape out = null;
+        switch (n) {
+            case 0 :
+                out = new ShapeSquare ( new PVector(5, 0));
+                break;	
+            case 1 :
+                out = new ShapeLine ( new PVector(5, 0));
+                break;	
+            case 2 :
+                out = new ShapeT ( new PVector(5, 0));
+                break;	
+            case 3 :
+                out = new ShapeZ ( new PVector(5, 0));
+                break;	
+            case 4 :
+                out = new ShapeL ( new PVector(5, 0));
+                break;	
+            case 5 :
+                out = new ShapeS ( new PVector(5, 0));
+                break;	
+            case 6 :
+                out = new ShapeLInv ( new PVector(5, 0));
+                break;	
+        } 
         return out;
     }
 }

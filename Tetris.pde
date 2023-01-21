@@ -2,13 +2,16 @@ final color _colorCase        = color(125, 125, 125);
 final color _colorLine        = color(200, 200, 200);
 final color _colorBg          = color(100, 100, 100);
 
-final color _colorShapeSquare = color(200, 000, 000);
-final color _colorShapeLine   = color(000, 200, 000);
-final color _colorShapeZ      = color(000, 200, 200);
-final color _colorShapeT      = color(000, 000, 200);
-final color _colorShapeL      = color(200, 200, 000);
+final color _colorShapeSquare = color(250, 000, 000);
+final color _colorShapeLine   = color(000, 250, 000);
+final color _colorShapeT      = color(000, 000, 250);
+final color _colorShapeZ      = color(000, 250, 250);
+final color _colorShapeS      = color(250, 000, 250);
+final color _colorShapeL      = color(250, 250, 000);
+final color _colorShapeLInv   = color(250, 250, 250);
 
 Gride gride;
+Gride predition;
 Hud hud;
 PVector grideDim;
 
@@ -27,6 +30,7 @@ void setup() {
     //levelStep = [0, 100, 200, 500];
     grideDim    = new PVector(10,20);
     gride       = new Gride(grideDim);
+    predition   = new Gride(new PVector(4,4));
     hud         = new Hud();
     gride.appaerShape();
 }

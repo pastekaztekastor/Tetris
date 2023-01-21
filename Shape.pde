@@ -1,6 +1,7 @@
 abstract class Shape{
 
     protected ArrayList<Bloc> shapeElements; 
+    int scoreValue;
 
     protected Shape () {
     }
@@ -125,5 +126,9 @@ abstract class Shape{
     }
     public ArrayList<Bloc> getShapElements() {
         return shapeElements;
+    }
+
+    public int getScoreValue() {
+        return scoreValue;
     }
 }
