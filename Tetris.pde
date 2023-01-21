@@ -1,12 +1,12 @@
-final color _colorCase       = color(125, 125, 125);
-final color _colorLine       = color(200, 200, 200);
-final color _colorBg         = color(100, 100, 100);
+final color _colorCase        = color(125, 125, 125);
+final color _colorLine        = color(200, 200, 200);
+final color _colorBg          = color(100, 100, 100);
 
 final color _colorShapeSquare = color(200, 000, 000);
-final color _colorShapeLine  = color(000, 200, 000);
-final color _colorShapeZ  = color(000, 200, 200);
-final color _colorShapeT  = color(000, 000, 200 );
-final color _colorShapeL  = color(200, 200, 000);
+final color _colorShapeLine   = color(000, 200, 000);
+final color _colorShapeZ      = color(000, 200, 200);
+final color _colorShapeT      = color(000, 000, 200);
+final color _colorShapeL      = color(200, 200, 000);
 
 Gride gride;
 PVector grideDim;

@@ -7,6 +7,8 @@ public class Gride{
     private PVector cornerEnd;
     private PVector grideDim;
 
+    private int shapeType;
+
     private boolean endGame;
     private ArrayList<Bloc> blocs; 
 
@@ -19,13 +21,13 @@ public class Gride{
         this.grideSize       = new PVector(grideDim.x*sizeCase, grideDim.y*sizeCase);
         this.cornerBegin     = new PVector(windowMidle.x-grideSize.x/2, windowMidle.y-grideSize.y/2);
         this.cornerEnd       = new PVector(windowMidle.x+grideSize.x/2, windowMidle.y+grideSize.y/2); 
-        blocs                = new ArrayList<Bloc>();
-        endGame              = false;
+        this.blocs           = new ArrayList<Bloc>();
+        this.shapeType       = (int)random(0, 5);
+        this.endGame         = false;
     }
 
     public void appaerShape(){
         if (! endGame) {
-            int shapeType = (int)random(0, 5);
             switch (shapeType) {
                 case 0 :
                     movedShape = new ShapeSquare ( new PVector(1, 1));
@@ -43,6 +45,7 @@ public class Gride{
                     movedShape = new ShapeL ( new PVector(1, 1));
                     break;	
             }   
+            shapeType = (int)random(0, 5);
         }
         if (endGame()) {
             println("fin de game");
@@ -54,6 +57,7 @@ public class Gride{
         background(_colorBg);
 
         stroke(_colorCase);
+        strokeWeight(1);
         fill(_colorCase);
         rectMode(CORNERS);
         rect(cornerBegin.x, cornerBegin.y, cornerEnd.x, cornerEnd.y);

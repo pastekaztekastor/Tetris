@@ -9,7 +9,7 @@ public class Bloc {
 
     public void plot(PVector cornerBegin, float sizeCase) {
         fill(color(colorBloc,125));
-        strokeWeight(3);
+        strokeWeight(2);
         stroke(colorBloc);
         rectMode(CORNER);
         rect(
