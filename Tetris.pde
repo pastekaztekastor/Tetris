@@ -9,6 +9,7 @@ final color _colorShapeT      = color(000, 000, 200);
 final color _colorShapeL      = color(200, 200, 000);
 
 Gride gride;
+Hud hud;
 PVector grideDim;
 
 int _millisBeg = millis();
@@ -17,33 +18,27 @@ int _millisInput = millis();
 int score, level; // TO DO
 int [] levelStep; // TO DO
 
-static enum Orientation{
-    TOP, LEFT, BOTTOM, RIGHT
-}
 static enum Move{
     UP, LEFT, DOWN, RIGHT, ROTATE, BOTTOM
 }
 
 void setup() {
-    size(300,600,P2D);
+    size(600,600,P2D);
     //levelStep = [0, 100, 200, 500];
-    grideDim = new PVector(10,20);
-    gride = new Gride(grideDim);
+    grideDim    = new PVector(10,20);
+    gride       = new Gride(grideDim);
+    hud         = new Hud();
     gride.appaerShape();
 }
 
 void draw() {
     gride.plotGride();
     gride.plotShapes();
-    if (millis() - _millisBeg > 300){
+    if (millis() - _millisBeg > 10000){
         _millisBeg = millis();
         gride.animate(Move.DOWN);
     }
-    plotHUD();
-}
-
-void plotHUD(){
-    //TO DO
+    hud.plot();
 }
 
 void keyPressed() {
@@ -51,7 +46,7 @@ void keyPressed() {
         if (keyCode == LEFT) gride.animate(Move.LEFT);
         if (keyCode == RIGHT) gride.animate(Move.RIGHT);
         if (keyCode == DOWN) {
-            if (millis()-_millisInput <20) {
+            if (millis()-_millisInput < 300) {
                 gride.animate(Move.BOTTOM);
             }
             else {

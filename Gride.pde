@@ -104,6 +104,13 @@ public class Gride{
                         movedShape.undoMove(move);
                     }    
                     break;
+                case BOTTOM : 
+                    while (! movedShape.bottomColision(grideDim, this.getBannedIndex())) {
+                        movedShape.move(Move.DOWN);
+                    }
+                    movedShape.undoMove(Move.DOWN);
+                    this.blocs.addAll(movedShape.getShapElements());
+                    appaerShape();
             }
             if (indexFullLine().size() > 0){
                 deletLine(indexFullLine());

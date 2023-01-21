@@ -1,10 +1,8 @@
 abstract class Shape{
 
-    protected Orientation orientation;
     protected ArrayList<Bloc> shapeElements; 
 
     protected Shape () {
-        this.orientation = Orientation.TOP;
     }
 
     protected boolean bottomColision(PVector grideDim, ArrayList<PVector> bannedIndex) {
@@ -87,9 +85,43 @@ abstract class Shape{
         }
     }
     public void rotate() {
-        // on vas faire des symtrie diag pour 1 cas sur 2
-        // de symétrie horizon + diag pour les deux autres. 
+        PVector shapeDimension;
+        PVector shapePosition;
+
+        float[] indexX = new float[shapeElements.size()];
+        float[] indexY = new float[shapeElements.size()];
         
+        PVector relativeIndex;
+        // VERTICAL
+        for (int i = 0; i < shapeElements.size(); i++) {
+            indexX[i] = shapeElements.get(i).getIndex().x;
+            indexY[i] = shapeElements.get(i).getIndex().y;
+        }
+        shapePosition = new PVector(min(indexX), min(indexY));
+        shapeDimension = new PVector(max(indexX), max(indexY));
+        shapeDimension.sub(shapePosition);
+
+        for (Bloc bloc : shapeElements) {
+            relativeIndex = PVector.sub(bloc.getIndex(), shapePosition);
+            bloc.setIndex(PVector.add(shapePosition, new PVector(shapeDimension.x - relativeIndex.x , relativeIndex.y)));
+        }
+
+        // DIAGONAL
+        // VERTICAL
+        for (int i = 0; i < shapeElements.size(); i++) {
+            indexX[i] = shapeElements.get(i).getIndex().x;
+            indexY[i] = shapeElements.get(i).getIndex().y;
+        }
+        shapePosition = new PVector(min(indexX), min(indexY));
+        shapeDimension = new PVector(max(indexX), max(indexY));
+        shapeDimension.sub(shapePosition);
+
+        for (Bloc bloc : shapeElements) {
+            relativeIndex = PVector.sub(bloc.getIndex(), shapePosition);
+            PVector invers = new PVector(relativeIndex.y, relativeIndex.x);
+            bloc.setIndex(PVector.add(shapePosition, invers));
+        }
+        // On peut amélioré en "centrant la figure"
     }
     public ArrayList<Bloc> getShapElements() {
         return shapeElements;

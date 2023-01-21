@@ -13,10 +13,10 @@ public class Bloc {
         stroke(colorBloc);
         rectMode(CORNER);
         rect(
-            cornerBegin.x + ((indexBloc.x)*sizeCase) ,
-            cornerBegin.y + ((indexBloc.y)*sizeCase),
-            sizeCase, 
-            sizeCase);
+            (cornerBegin.x + ((indexBloc.x)*sizeCase)) + sizeCase*.05,
+            (cornerBegin.y + ((indexBloc.y)*sizeCase)) + sizeCase*.05,
+            sizeCase*.9, 
+            sizeCase*.9);
     }
     public PVector getIndex() {
         return indexBloc;
