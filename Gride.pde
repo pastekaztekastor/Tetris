@@ -6,8 +6,8 @@ public class Gride{
     private PVector cornerBegin;
     private PVector cornerEnd;
     private PVector grideDim;
+
     private boolean endGame;
-    private ArrayList<PVector> bannedIndex;
     private ArrayList<Bloc> blocs; 
 
     private Shape movedShape;
@@ -19,31 +19,29 @@ public class Gride{
         this.grideSize       = new PVector(grideDim.x*sizeCase, grideDim.y*sizeCase);
         this.cornerBegin     = new PVector(windowMidle.x-grideSize.x/2, windowMidle.y-grideSize.y/2);
         this.cornerEnd       = new PVector(windowMidle.x+grideSize.x/2, windowMidle.y+grideSize.y/2); 
-        bannedIndex          = new ArrayList<PVector>();
         blocs                = new ArrayList<Bloc>();
-        bannedIndex.add(new PVector(-1,-1));
         endGame              = false;
     }
 
     public void appaerShape(){
         if (! endGame) {
-            int shapeType = (int)random(0, 5);
+            int shapeType = (int)random(1, 1);
             switch (shapeType) {
-                case 0 :
-                    movedShape = new ShapeSquare ( new PVector(1, 1));
-                    break;	
+                // case 0 :
+                //     movedShape = new ShapeSquare ( new PVector(1, 1));
+                //     break;	
                 case 1 :
                     movedShape = new ShapeLine ( new PVector(1, 1));
                     break;	
-                case 2 :
-                    movedShape = new ShapeT ( new PVector(1, 1));
-                    break;	
-                case 3 :
-                    movedShape = new ShapeZ ( new PVector(1, 1));
-                    break;	
-                case 4 :
-                    movedShape = new ShapeL ( new PVector(1, 1));
-                    break;	
+                // case 2 :
+                //     movedShape = new ShapeT ( new PVector(1, 1));
+                //     break;	
+                // case 3 :
+                //     movedShape = new ShapeZ ( new PVector(1, 1));
+                //     break;	
+                // case 4 :
+                //     movedShape = new ShapeL ( new PVector(1, 1));
+                //     break;	
             }   
         }
         if (endGame()) {
@@ -83,50 +81,39 @@ public class Gride{
             switch (move) {
                 case DOWN : 
                     movedShape.move(move);
-                    if (movedShape.bottomColision(grideDim, bannedIndex)){
+                    if (movedShape.bottomColision(grideDim, this.getBannedIndex())){
                         movedShape.undoMove(move);
-                        bannedIndex.addAll(movedShape.getAbsolutIndexShapeElement());
-                        //shapes.add(movedShape);
-                        for (PVector shapeElementIndex : movedShape.getAbsolutIndexShapeElement()) {
-                            blocs.add(new Bloc(shapeElementIndex, movedShape.getColor()));
-                        }
+                        this.blocs.addAll(movedShape.getShapElements());
                         appaerShape();
                     }
                     break;
                 case LEFT :
                 case RIGHT : 
                     movedShape.move(move);
-                    if (movedShape.sideColision(grideDim, bannedIndex)){
+                    if (movedShape.sideColision(grideDim, this.getBannedIndex())){
                         movedShape.undoMove(move);
                     }    
                     break;
                 case ROTATE : 
                     movedShape.move(move);
-                    if (movedShape.sideColision(grideDim, bannedIndex) || movedShape.bottomColision(grideDim, bannedIndex)){
+                    if (movedShape.sideColision(grideDim, this.getBannedIndex()) || movedShape.bottomColision(grideDim, this.getBannedIndex())){
                         movedShape.undoMove(move);
                     }    
                     break;
             }
-            if (indexYFullLine().size() > 0){
-                deletLine(indexYFullLine());
+            if (indexFullLine().size() > 0){
+                deletLine(indexFullLine());
             }
         }
     }
 
-    public void acctualizeBannedIndex() {
-        bannedIndex.clear();
-        for (Bloc bloc : blocs) {
-            bannedIndex.add(bloc.getIndexBloc());
-        }
-    }
-
-    public ArrayList<Integer> indexYFullLine() {
+    public ArrayList<Integer> indexFullLine() {
         ArrayList<Integer> out = new ArrayList<>();
         // si un ligne et pleine retourne l'indice de cette ligne
         for (int curentLine = 0; curentLine < grideDim.y ; curentLine++) {
             ArrayList<Bloc> blocsAtLine = new ArrayList<Bloc>();
             for (Bloc bloc : blocs) {
-                if(bloc.getLine() == curentLine){
+                if((int)bloc.getIndex().y == curentLine){
                     blocsAtLine.add(bloc);
                 }
             }
@@ -142,26 +129,33 @@ public class Gride{
             ArrayList<Bloc> testedBlocs = new ArrayList<>();
             testedBlocs.addAll(blocs);
             for (Bloc bloc : testedBlocs) {
-                if(bloc.getLine() == line){
+                if((int)bloc.getIndex().y == line){
                     blocs.remove(bloc);
                 }
             } 
             for (Bloc bloc : blocs) {
-                if (bloc.getLine() < line) {
-                    bloc.moveDown();
+                if ((int)bloc.getIndex().y < line) {
+                    bloc.setIndex(0,1);
                 }
             }
         }
-        acctualizeBannedIndex();
     }
     
     public boolean endGame() {
         boolean out = false;
         for (PVector shapeElement : movedShape.getAbsolutIndexShapeElement()) {
-            if (bannedIndex.contains(shapeElement)) {
+            if (this.getBannedIndex().contains(shapeElement)) {
                 out = true;
                 break;
             }
+        }
+        return out;
+    }
+
+    private ArrayList<PVector> getBannedIndex() {
+        ArrayList<PVector> out = new ArrayList();
+        for (Bloc bloc : blocs) {
+            out.add(bloc.getIndex());
         }
         return out;
     }

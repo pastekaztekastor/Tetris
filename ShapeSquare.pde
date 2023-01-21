@@ -2,11 +2,10 @@ public class ShapeSquare extends Shape{
 
     public ShapeSquare ( PVector stratPosition) {
         super(stratPosition);
-        this.colorShape = _colorShapeSquare;
-        this.shapeElements = new ArrayList<PVector>();
-            shapeElements.add(new PVector(0,0));
-            shapeElements.add(new PVector(0,1));
-            shapeElements.add(new PVector(1,0));
-            shapeElements.add(new PVector(1,1));
+        this.shapeElements = new ArrayList<Bloc>();
+            shapeElements.add(new Bloc (new PVector(0,0), _colorShapeSquare));
+            shapeElements.add(new Bloc (new PVector(0,1), _colorShapeSquare));
+            shapeElements.add(new Bloc (new PVector(1,0), _colorShapeSquare));
+            shapeElements.add(new Bloc (new PVector(1,1), _colorShapeSquare));
     }
 }

@@ -1,9 +1,8 @@
 abstract class Shape{
 
-    protected PVector positionIndex; // index PositionIndex
-    protected color colorShape;
+    protected PVector positionIndex; 
     protected Orientation orientation;
-    protected ArrayList<PVector> shapeElements; // index des composantes de la shape
+    protected ArrayList<Bloc> shapeElements; 
 
     protected Shape (PVector stratPosition) {
         this.positionIndex = stratPosition;
@@ -20,7 +19,6 @@ abstract class Shape{
         }
         return out;
     }
-
     protected boolean sideColision(PVector grideDim, ArrayList<PVector> bannedIndex) {
         boolean out = false;
         for (PVector indexTested : this.getAbsolutIndexShapeElement()) {
@@ -32,32 +30,18 @@ abstract class Shape{
         return out;
     }
     protected void plot(PVector cornerBegin, float sizeCase) {
-        for (PVector shapeElement : shapeElements) {
+        for (Bloc shapeElement : shapeElements) {
             // affiche les carré qui coimpose la shape
-            fill(color(colorShape,125));
-            strokeWeight(3);
-            stroke(colorShape);
-            rectMode(CORNER);
-            rect(
-                cornerBegin.x + ((shapeElement.x+positionIndex.x)*sizeCase) ,
-                cornerBegin.y + ((shapeElement.y+positionIndex.y)*sizeCase),
-                sizeCase, 
-                sizeCase);
+            shapeElement.plot(cornerBegin, sizeCase);
         }
     }
-
-    public color getColor() {
-        return colorShape;
-    }
-
     public ArrayList<PVector> getAbsolutIndexShapeElement() {
         ArrayList<PVector> out = new ArrayList<PVector>();
-        for (PVector shapeElement : shapeElements) {
-            out.add(new PVector(shapeElement.x+this.positionIndex.x, shapeElement.y+this.positionIndex.y));
+        for (Bloc shapeElement : shapeElements) {
+            out.add( PVector.add(this.positionIndex, shapeElement.getIndex()));
         }
         return out;
     }
-
     public void move(Move move){
         switch (move) {
             case DOWN :
@@ -92,7 +76,6 @@ abstract class Shape{
                 break;
         }
     }
-
     public void rotate() {
         // on vas faire des symtrie diag pour 1 cas sur 2
         // de symétrie horizon + diag pour les deux autres. 
@@ -100,24 +83,27 @@ abstract class Shape{
             case LEFT :
             case RIGHT :
                 // symétrie diag
-                for (PVector shapeElement : shapeElements) {
-                    float x = shapeElement.x;
-                    shapeElement.x = shapeElement.y;
-                    shapeElement.y = x;
+                for (Bloc shapeElement : shapeElements) {
+                    float x = shapeElement.getIndex().x;
+                    shapeElement.getIndex().x = shapeElement.getIndex().y;
+                    shapeElement.getIndex().y = x;
                 }
                 orientation = Orientation.TOP;
             case TOP :
             case BOTTOM : 
                 // symétrie vertical
                 float maxX = 0;
-                for (PVector shapeElement : shapeElements) {
-                    maxX = max(maxX, shapeElement.x);
+                for (Bloc shapeElement : shapeElements) {
+                    maxX = max(maxX, shapeElement.getIndex().x);
                 }
-                for (PVector shapeElement : shapeElements) {
-                    shapeElement.x = maxX-shapeElement.x;
+                for (Bloc shapeElement : shapeElements) {
+                    shapeElement.getIndex().x = maxX-shapeElement.getIndex().x;
                 }
                 orientation = Orientation.LEFT;
                 break;	
         }
+    }
+    public ArrayList<Bloc> getShapElements() {
+        return shapeElements;
     }
 }

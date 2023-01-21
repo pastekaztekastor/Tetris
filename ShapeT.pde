@@ -2,11 +2,10 @@ public class ShapeT extends Shape{
 
     public ShapeT ( PVector stratPosition) {
         super(stratPosition);
-        this.colorShape = _colorShapeT;
-        this.shapeElements = new ArrayList<PVector>();
-            shapeElements.add(new PVector(0,0));
-            shapeElements.add(new PVector(0,1));
-            shapeElements.add(new PVector(0,2));
-            shapeElements.add(new PVector(1,1));
+        this.shapeElements = new ArrayList<Bloc>();
+            shapeElements.add(new Bloc (new PVector(0,0), _colorShapeT));
+            shapeElements.add(new Bloc (new PVector(0,1), _colorShapeT));
+            shapeElements.add(new Bloc (new PVector(0,2), _colorShapeT));
+            shapeElements.add(new Bloc (new PVector(1,1), _colorShapeT));
     }
 }

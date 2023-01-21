@@ -18,13 +18,14 @@ public class Bloc {
             sizeCase, 
             sizeCase);
     }
-    public int getLine() {
-        return (int)indexBloc.y;
-    }
-    public void moveDown() {
-        indexBloc.y++;
-    }
-    public PVector getIndexBloc() {
+    public PVector getIndex() {
         return indexBloc;
+    }
+    public void setIndex(PVector indexBloc) {
+        this.indexBloc = indexBloc;
+    }
+    public void setIndex(int x, int y) {
+        this.indexBloc.x += x;
+        this.indexBloc.y += y;
     }
 }
